@@ -1,0 +1,21 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json
+{
+    "name": "Python 3",
+    "context": "..",
+    "dockerFile": "Dockerfile",
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.linting.pylintUseMinimalCheckers": false,
+        "python.linting.mypyEnabled": true,
+        "python.formatting.provider": "black",
+    },
+    "extensions": [
+        "ms-python.python",
+    ],
+    "remoteUser": "vscode",
+    "forwardPorts": [
+        5000
+    ],
+}

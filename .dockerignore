@@ -1,1 +1,4 @@
 .git/
+.mypy_cache/
+src/__pycache__/
+.devcontainer/
