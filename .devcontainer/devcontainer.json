@@ -1,8 +1,12 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json
 {
     "name": "Python 3",
-    "context": "..",
-    "dockerFile": "Dockerfile",
+    "dockerComposeFile": [
+        "../docker-compose.yml",
+        "docker-compose.yml",
+    ],
+    "service": "api",
+    "workspaceFolder": "/workspace",
     "settings": {
         "terminal.integrated.shell.linux": "/bin/bash",
         "editor.rulers": [],

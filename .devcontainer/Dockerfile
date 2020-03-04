@@ -29,6 +29,7 @@ ARG USER_GID=$USER_UID
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME
 
+WORKDIR /workspace
 
 # Set up flask configuration
 ENV FLASK_APP=src/app.py \
