@@ -5,17 +5,13 @@
     "dockerFile": "Dockerfile",
     "settings": {
         "terminal.integrated.shell.linux": "/bin/bash",
+        "editor.rulers": [],
         "python.linting.enabled": true,
         "python.linting.pylintEnabled": true,
-        "python.linting.pylintUseMinimalCheckers": false,
-        "python.linting.mypyEnabled": true,
         "python.formatting.provider": "black",
     },
     "extensions": [
         "ms-python.python",
     ],
     "remoteUser": "vscode",
-    "forwardPorts": [
-        5000
-    ],
 }
