@@ -22,3 +22,12 @@ services:
     image: vtcs2304s19/blabber-client
     labels:
     - traefik.http.routers.cilent.rule=PathPrefix(`/`)
+
+  mongo:
+    image: mongo:4
+    volumes:
+    - mongo-data:/data/db
+
+
+volumes:
+  mongo-data:
