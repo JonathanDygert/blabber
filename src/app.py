@@ -5,11 +5,14 @@ from time import time
 from bson.objectid import ObjectId
 from flask import Flask, abort, jsonify, request
 from pymongo import MongoClient
+from prometheus_flask_exporter import PrometheusMetrics
 
 APP = Flask(__name__)
 
 MONGO_CLIENT = MongoClient("mongo")
 BLABS = MONGO_CLIENT.blabber.blabs
+
+METRICS = PrometheusMetrics(APP)
 
 
 @APP.route("/api/blabs", methods=["GET"])
@@ -26,6 +29,7 @@ def get_blabs():
 
 
 @APP.route("/api/blabs", methods=["POST"])
+@METRICS.counter("blabber_blabs", "Number of blabs created")
 def post_blabs():
     """Add a new blab."""
     blab = request.json
