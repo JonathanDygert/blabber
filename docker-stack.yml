@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+  reverse-proxy:
+    image: traefik:v2.1
+    command:
+    - --api.insecure=true
+    - --providers.docker=true
+    - --providers.docker.swarmMode=true
+    ports: 
+    - 80:80
+    - 8080:8080
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      placement:
+        constraints:
+        - "node.role==manager"
+
+  api:
+    image: jdygert/blabber-api
+    stop_signal: SIGINT
+    labels:
+    - traefik.http.routers.api.rule=PathPrefix(`/api/`)
+    environment:
+      - DEBUG_METRICS=1
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+        - "node.role==worker"
+
+  client:
+    image: vtcs2304s19/blabber-client
+    labels:
+    - traefik.http.routers.cilent.rule=PathPrefix(`/`)
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+        - "node.role==worker"
+
+  mongo:
+    image: mongo:4
+    volumes:
+    - mongo-data:/data/db
+    deploy:
+      placement:
+        constraints:
+        - "node.role==worker"
+
+
+volumes:
+  mongo-data:
