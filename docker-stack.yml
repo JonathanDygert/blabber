@@ -20,11 +20,12 @@ services:
   api:
     image: jdygert/blabber-api
     stop_signal: SIGINT
-    labels:
-    - traefik.http.routers.api.rule=PathPrefix(`/api/`)
     environment:
       - DEBUG_METRICS=1
     deploy:
+      labels:
+      - traefik.http.routers.api.rule=PathPrefix(`/api/`)
+      - traefik.http.services.api.loadbalancer.server.port=80
       replicas: 2
       placement:
         constraints:
@@ -32,9 +33,10 @@ services:
 
   client:
     image: vtcs2304s19/blabber-client
-    labels:
-    - traefik.http.routers.cilent.rule=PathPrefix(`/`)
     deploy:
+      labels:
+      - traefik.http.routers.cilent.rule=PathPrefix(`/`)
+      - traefik.http.services.client.loadbalancer.server.port=80
       replicas: 2
       placement:
         constraints:
