@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   reverse-proxy:
@@ -22,6 +22,9 @@ services:
     stop_signal: SIGINT
     environment:
       - DEBUG_METRICS=1
+      - MONGO_URL_FILE=/run/secrets/mongo_url
+    secrets:
+      - mongo_url
     deploy:
       labels:
       - traefik.http.routers.api.rule=PathPrefix(`/api/`)
@@ -54,3 +57,8 @@ services:
 
 volumes:
   mongo-data:
+
+
+secrets:
+  mongo_url:
+    external: true
