@@ -1,6 +1,7 @@
 """A flask app for the blabber api."""
 
 from time import time
+from os import environ
 
 from bson.objectid import ObjectId
 from flask import Flask, abort, jsonify, request
@@ -9,10 +10,17 @@ from prometheus_flask_exporter import PrometheusMetrics
 
 APP = Flask(__name__)
 
-MONGO_CLIENT = MongoClient("mongo")
+MONGO_CLIENT = MongoClient(_env_config("MONGO_URL_FILE", "mongo"))
 BLABS = MONGO_CLIENT.blabber.blabs
 
 METRICS = PrometheusMetrics(APP)
+
+
+def _env_config(var: str, default: str) -> str:
+    if filename := environ.get(var):
+        with open(filename) as file:
+            return file.read()
+    return default
 
 
 @APP.route("/api/blabs", methods=["GET"])

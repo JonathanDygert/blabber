@@ -18,7 +18,7 @@ services:
         - "node.role==manager"
 
   api:
-    image: jdygert/blabber-api
+    image: jdygert/blabber
     stop_signal: SIGINT
     environment:
       - DEBUG_METRICS=1
