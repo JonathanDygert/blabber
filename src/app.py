@@ -6,6 +6,7 @@ from os import environ
 from bson.objectid import ObjectId
 from flask import Flask, abort, jsonify, request
 from pymongo import MongoClient
+from pymongo.errors import ConnectionFailure
 from prometheus_flask_exporter import PrometheusMetrics
 
 
@@ -57,3 +58,13 @@ def delete_blabs(blab_id):
     query = {"_id": ObjectId(blab_id)}
     if BLABS.delete_one(query).deleted_count != 1:
         abort(404)
+
+
+@APP.route("/api/healthcheck", methods=["GET"])
+def healthcheck():
+    """Check if the app is healthy."""
+    try:
+        MONGO_CLIENT.admin.command("ismaster")
+    except ConnectionFailure:
+        abort(503)
+    return "Ok", 204
